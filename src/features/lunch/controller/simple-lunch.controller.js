@@ -4,8 +4,8 @@ import lunchIconsService from "../services/lunch-icons.service.js";
 import voteManagerService from "../services/vote-manager.service.js";
 
 
-export async function handleGetSimpleLunch (request) {
-  if (voteManagerService.hasVoteStatus(request.channelId)) {
+export async function handleGetSimpleLunch (channelId) {
+  if (voteManagerService.hasVoteStatus(channelId)) {
     return {
       text: '이미 추천이 진행중이에요. 기존 점메추를 완료해 주세요 🤷‍♂️',
       replaceOriginal: false,
@@ -23,7 +23,7 @@ export async function handleGetSimpleLunch (request) {
   lunchResponse.text = '오늘의 메뉴는 ? 😋';
   lunchResponse.attachments.push(SIMPLE_LUNCH_ACTION);
 
-  voteManagerService.cacheVoteStatus(request.channelId, lunchResponse);
+  voteManagerService.cacheVoteStatus(channelId, lunchResponse);
 
   return lunchResponse;
 }
@@ -56,7 +56,7 @@ async function retryLunchMenu(channelId, message) {
   lunchResponse.text = `${userTag} 님이 싫다고 해서 다시 뽑았어요 🙂`;
   lunchResponse.attachments.push(SIMPLE_LUNCH_ACTION);
 
-  voteManagerService.cacheVoteStatus(request.channelId, lunchResponse);
+  voteManagerService.cacheVoteStatus(channelId, lunchResponse);
 
   return lunchResponse;
 }
@@ -73,7 +73,7 @@ async function confirmLunchMenu(channelId, message) {
   return response;
 }
 
-async function cancelLunchMenu(channelId, message) {
+async function cancelLunchMenu(channelId, _message) {
   const randomIcon = lunchIconsService.getRandomLunchIcon();
   const response = {
     responseType: 'inChannel',
