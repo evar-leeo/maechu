@@ -1,6 +1,6 @@
 import { request } from "undici";
 import { NAVER_MAP_FOLDER_ID, NAVER_MAPS_BOOKMARK_API_URL } from "../constants/naver-url.constants.js";
-
+import lunch_menus from '../constants/lunch_menu.json';
 class DinningList {
   folder = null;
   bookmarkList = [];
@@ -12,14 +12,9 @@ class DinningList {
   }
 
   async updateList() {
-    if (!NAVER_MAP_FOLDER_ID) throw new Error('네이버 지도 저장 리스트 아이디를 설정해 주세요');
-    const {
-      statusCode, body
-    } = await request(`${NAVER_MAPS_BOOKMARK_API_URL}/${NAVER_MAP_FOLDER_ID}/bookmarks`);
+    if (!lunch_menus) throw new Error('scripts/fetch-menu를 실행하여 메뉴를 먼저 받아와 주세요');
 
-    if (statusCode !== 200) throw new Error('네이버 지도에서 식권 정보를 불러오는데 실패하였습니다.');
-
-    const { folder, bookmarkList } = await body.json()
+    const { folder, bookmarkList } = lunch_menus;
 
     this.folder = folder;
     this.bookmarkList = bookmarkList;
