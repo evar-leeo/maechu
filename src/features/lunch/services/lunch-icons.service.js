@@ -3,8 +3,8 @@ class LunchIcons {
   icons = ['🍌','🥯','🍔','🍜','🥗','🍣','🍵','🍽️'];
 
   getRandomLunchIcon() {
-    const len = this.lunchIcons.length;
-    return this.lunchIcons[~~(Math.random() * len)];
+    const len = this.icons.length;
+    return this.icons[~~(Math.random() * len)];
   }
 }
 
