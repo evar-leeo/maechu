@@ -1,6 +1,5 @@
-import { request } from "undici";
-import { NAVER_MAP_FOLDER_ID, NAVER_MAPS_BOOKMARK_API_URL } from "../constants/naver-url.constants.js";
-import lunch_menus from '../constants/lunch_menu.json';
+import lunchMenuData from "../constants/lunch_menu.json" assert { type: "json" };
+
 class DinningList {
   folder = null;
   bookmarkList = [];
@@ -12,9 +11,9 @@ class DinningList {
   }
 
   async updateList() {
-    if (!lunch_menus) throw new Error('scripts/fetch-menu를 실행하여 메뉴를 먼저 받아와 주세요');
+    if (!lunchMenuData) throw new Error('scripts/fetch-menu를 실행하여 메뉴를 먼저 받아와 주세요');
 
-    const { folder, bookmarkList } = lunch_menus;
+    const { folder, bookmarkList } = lunchMenuData;
 
     this.folder = folder;
     this.bookmarkList = bookmarkList;
