@@ -1,4 +1,19 @@
-import lunchMenuData from "../constants/lunch_menu.json" assert { type: "json" };
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import { NAVER_MAPS_BOOKMARK_WEB_URL } from '../constants/naver-url.constants.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const lunchMenuPath = path.resolve(__dirname, '../constants/lunch_menu.json');
+
+let lunchMenuData;
+try {
+  lunchMenuData = JSON.parse(readFileSync(lunchMenuPath, 'utf8'));
+} catch (error) {
+  console.warn('lunch_menu.json not found or invalid:', error.message);
+  lunchMenuData = null;
+}
 
 class DinningList {
   folder = null;

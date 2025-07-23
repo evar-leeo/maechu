@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 import maechu from "#core/maechu.js";
 import { registerDoorayRoutes } from "#routes/dooray.routes.js";
+import { registerTeamsRoutes } from "#routes/teams.routes.js";
 
 const PORT = process.env.PORT || 4885;
 
@@ -16,6 +17,7 @@ maechu.get('/awake', (_, reply) => {
 })
 
 maechu.register(registerDoorayRoutes, { prefix: '/dooray' });
+maechu.register(registerTeamsRoutes, { prefix: '/teams' });
 
 try {
   maechu.listen({ host: '0.0.0.0', port: PORT })

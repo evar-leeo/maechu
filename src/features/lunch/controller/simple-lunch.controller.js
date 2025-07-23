@@ -4,7 +4,9 @@ import lunchIconsService from "../services/lunch-icons.service.js";
 import voteManagerService from "../services/vote-manager.service.js";
 
 
-export async function handleGetSimpleLunch (channelId) {
+export async function handleGetSimpleLunch (request, reply) {
+  const channelId = request.channelId || request.body?.channelId || 'default';
+  
   if (voteManagerService.hasVoteStatus(channelId)) {
     return {
       text: '이미 추천이 진행중이에요. 기존 점메추를 완료해 주세요 🤷‍♂️',
