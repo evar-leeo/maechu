@@ -1,7 +1,6 @@
-# 🍽️ Maechu v2 - 점심 메뉴 추천 봇
+# 🍽️ Maechu v2 - 점심 메뉴 추천 서비스
 
-네이버 지도 북마크를 활용한 **Microsoft Teams** 점심 메뉴 추천 봇  
-**Power Automate Workflows** 지원 ⚡
+네이버 지도 북마크를 활용한 **웹 기반** 점심 메뉴 추천 서비스
 
 ## 🚀 Render.com 배포 가이드
 
@@ -13,8 +12,6 @@ Render.com 대시보드에서 다음 환경 변수를 설정하세요:
 PORT=10000
 SERVER_URL=https://your-app-name.onrender.com
 NAVER_MAP_FOLDER_ID=your_naver_map_folder_id_here
-TEAMS_BOT_ID=lunch-recommend-bot-v2
-TEAMS_APP_PACKAGE=com.maechu.lunchbot
 ```
 
 ### 2. 네이버 지도 폴더 ID 찾는 방법
@@ -29,50 +26,31 @@ TEAMS_APP_PACKAGE=com.maechu.lunchbot
 - **Cron Job**: 매일 오전 9시에 자동으로 네이버 지도에서 최신 식당 정보 동기화
 - **수동 실행**: `npm run fetch-menus`
 
-## 🤖 Microsoft Teams 연동 가이드
+## 🌐 웹 인터페이스 사용법
 
-### 1. Power Automate Workflows 설정 (권장)
+### 1. 웹 브라우저에서 접속
 
-Microsoft Teams에서 Office 365 Connectors가 은퇴되면서 **Power Automate Workflows**로 전환:
-
-#### 단계별 설정:
-
-1. **Teams 채널에서 Workflows 앱 설치**
-   - 채널 → "..." → "Workflows" 선택
-   - "Post to a channel when a webhook request is received" 템플릿 선택
-
-2. **Power Automate에서 Flow 편집**
-   - 템플릿 대신 커스텀 Flow 생성 권장
-   - 트리거: "When a Teams webhook request is received"
-   - 액션: "Post card in a chat or channel"
-
-3. **웹훅 URL 설정**
-   ```
-   ${SERVER_URL}/teams/lunch
-   예: https://maechu-v2-whmc.onrender.com/teams/lunch
-   ```
-
-#### 예시 Power Automate Flow:
+배포된 서비스 주소에 `/web`을 추가하여 접속:
 ```
-1. When a Teams webhook request is received
-2. Post card in a chat or channel
-   - Adaptive Card: triggerBody()
+https://your-app-name.onrender.com/web
 ```
 
-### 2. 사용법
+### 2. 주요 기능
 
-1. **Power Automate Workflow 트리거**
-   - HTTP POST 요청으로 `/teams/lunch` 호출
-   - 자동으로 Adaptive Card 형태로 응답
+- **🎲 점심 메뉴 추천받기**: 저장된 맛집 중에서 랜덤 추천
+- **📋 전체 식당 목록**: 네이버 지도에 저장된 모든 식당 보기
+- **🗺️ 지도 연동**: 추천받은 식당을 바로 네이버 지도에서 확인
 
-2. **Adaptive Card 기능**:
-   - 🗺️ **지도에서 보기**: 네이버 지도 직접 링크
-   - 📋 **전체 리스트**: 저장된 식당 폴더 보기
+### 3. PWA 지원
 
-### 3. 은퇴 일정 (중요!)
+- 모바일 브라우저에서 "홈 화면에 추가" 가능
+- 앱처럼 사용할 수 있는 Progressive Web App
+- 오프라인에서도 기본 기능 이용 가능
 
-- **2024년 12월 31일**: 기존 Office 365 Connectors URL 업데이트 필요
-- **2025년 12월**: 완전 은퇴, Power Automate 전환 필수
+### 4. 키보드 단축키
+
+- `Enter` 또는 `Space`: 점심 메뉴 추천받기
+- `Escape`: 메인 화면으로 돌아가기
 
 ## 📁 프로젝트 구조
 
@@ -83,11 +61,17 @@ maechu_v2/
 ├── src/
 │   ├── core/                   # 코어 설정 (Fastify, 미들웨어)
 │   ├── features/
-│   │   ├── dooray/            # Dooray/Team 웹훅 처리
+│   │   ├── dooray/            # Dooray 웹훅 처리 (레거시)
 │   │   └── lunch/             # 점심 추천 로직
 │   └── routes/                # 라우팅 설정
-├── render.yaml                # Render.com 배포 설정
-└── server.js                  # 메인 서버 파일
+├── public/                    # 웹 인터페이스 정적 파일
+│   ├── index.html            # 메인 웹페이지
+│   ├── styles.css            # 스타일시트
+│   ├── script.js             # JavaScript 로직
+│   ├── manifest.json         # PWA 매니페스트
+│   └── sw.js                 # 서비스 워커
+├── render.yaml               # Render.com 배포 설정
+└── server.js                 # 메인 서버 파일
 ```
 
 ## 🔧 로컬 개발
@@ -109,14 +93,14 @@ npm start
 
 ## 📝 API 엔드포인트
 
-### 공통
-- `GET /` - 헬스체크
-- `GET /awake` - 상태 확인
+### 웹 인터페이스
+- `GET /web` - 메인 웹페이지
+- `GET /api/lunch` - 웹용 점심 추천 API (JSON)
+- `GET /api/restaurants` - 식당 목록 API (JSON)
 
-### Microsoft Teams (권장)
-- `POST /teams/lunch` - Teams Adaptive Card 점심 추천
-- `GET /teams/lunch` - Teams Adaptive Card 점심 추천 (GET 지원)
-- `GET /teams/health` - Teams 서비스 상태 확인
+### 공통
+- `GET /` - 헬스체크 및 서비스 정보
+- `GET /awake` - 상태 확인
 
 ### Dooray (레거시)
 - `POST /dooray/lunch/simple` - Dooray 점심 추천

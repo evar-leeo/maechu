@@ -13,10 +13,6 @@ services:
         value: https://maechu-v2-whmc.onrender.com
       - key: NAVER_MAP_FOLDER_ID
         sync: false  # 수동으로 설정해야 함
-      - key: TEAMS_BOT_ID
-        value: lunch-recommend-bot-v2
-      - key: TEAMS_APP_PACKAGE
-        value: com.maechu.lunchbot
 
   - type: cron
     name: fetch-menus
@@ -28,8 +24,4 @@ services:
       - key: SERVER_URL
         value: https://maechu-v2-whmc.onrender.com
       - key: NAVER_MAP_FOLDER_ID
-        sync: false  # 수동으로 설정해야 함
-      - key: TEAMS_BOT_ID
-        value: lunch-recommend-bot-v2
-      - key: TEAMS_APP_PACKAGE
-        value: com.maechu.lunchbot 
+        sync: false  # 수동으로 설정해야 함 
