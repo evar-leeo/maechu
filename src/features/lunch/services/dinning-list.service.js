@@ -129,12 +129,62 @@ class DinningList {
     const randomIdx = Math.trunc(Math.random() * len);
     const menu = this.bookmarkList[randomIdx];
 
-    if (!menu.available) {
+    // 영업 상태 체크 개선
+    if (!this.isRestaurantAvailable(menu)) {
       if (updateCount < 3) return this.getRandomMenu(updateCount + 1);
       return null;
     }
 
     return menu;
+  }
+
+  // 영업 상태 체크 함수 추가
+  isRestaurantAvailable(restaurant) {
+    // 1. 기본 available 체크
+    if (!restaurant.available) {
+      console.log(`❌ ${restaurant.name}: 영업 중지 상태`);
+      return false;
+    }
+
+    // 2. 네이버 지도 매칭 상태 체크
+    const mismatchInfo = restaurant.bookmarkMismatchInfo;
+    if (mismatchInfo && !mismatchInfo.isMatched) {
+      console.log(`❌ ${restaurant.name}: 네이버 지도에서 매칭되지 않음`);
+      return false;
+    }
+
+    // 3. 세부 상태 체크
+    if (mismatchInfo && mismatchInfo.details) {
+      const hasAvailable = mismatchInfo.details.includes('AVAILABLE');
+      if (!hasAvailable) {
+        console.log(`❌ ${restaurant.name}: 상세 상태 확인 불가 (${mismatchInfo.details.join(', ')})`);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  // 사용 가능한 식당 수 확인 함수 추가
+  getAvailableRestaurantsCount() {
+    if (!this.bookmarkList) return 0;
+    return this.bookmarkList.filter(restaurant => this.isRestaurantAvailable(restaurant)).length;
+  }
+
+  // 전체 식당 상태 정보 확인 함수 추가
+  getRestaurantStatusSummary() {
+    if (!this.bookmarkList) return null;
+
+    const total = this.bookmarkList.length;
+    const available = this.getAvailableRestaurantsCount();
+    const unavailable = total - available;
+
+    return {
+      total,
+      available,
+      unavailable,
+      availabilityRate: total > 0 ? Math.round((available / total) * 100) : 0
+    };
   }
 
   async getLunchMenu() {
@@ -145,7 +195,15 @@ class DinningList {
       const menu = await this.getRandomMenu();
 
       if (!menu) {
-        baseResponse.text = '메뉴를 뽑는데 실패 했어요. 네이버 지도 리스트를 확인 해 주세요'
+        const statusSummary = this.getRestaurantStatusSummary();
+        const availableCount = statusSummary ? statusSummary.available : 0;
+        
+        if (availableCount === 0) {
+          baseResponse.text = '현재 영업 중인 식당이 없어요 😢 나중에 다시 시도해보세요!';
+        } else {
+          baseResponse.text = '메뉴를 뽑는데 실패 했어요. 네이버 지도 리스트를 확인 해 주세요';
+        }
+        
         if (this.folder) {
           baseResponse.attachments = [
             {

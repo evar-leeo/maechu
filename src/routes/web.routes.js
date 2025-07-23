@@ -54,9 +54,22 @@ export async function registerWebRoutes(maechu) {
     try {
       await dinningListService.initialize();
       
+      const statusSummary = dinningListService.getRestaurantStatusSummary();
+      const restaurants = dinningListService.bookmarkList || [];
+      
+      // 영업 상태별로 분류
+      const availableRestaurants = restaurants.filter(r => dinningListService.isRestaurantAvailable(r));
+      const unavailableRestaurants = restaurants.filter(r => !dinningListService.isRestaurantAvailable(r));
+      
       return {
         success: true,
-        restaurants: dinningListService.bookmarkList || [],
+        restaurants: restaurants.map(restaurant => ({
+          ...restaurant,
+          isAvailable: dinningListService.isRestaurantAvailable(restaurant)
+        })),
+        availableRestaurants,
+        unavailableRestaurants,
+        statusSummary,
         folder: dinningListService.folder || null
       };
       
@@ -66,6 +79,7 @@ export async function registerWebRoutes(maechu) {
         success: false,
         message: "식당 목록을 불러오는데 실패했습니다.",
         restaurants: [],
+        statusSummary: null,
         folder: null
       };
     }

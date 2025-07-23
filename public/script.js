@@ -129,26 +129,8 @@ function displayRecommendation(restaurant) {
     }
 }
 
-// 전체 식당 목록 처리
-async function handleShowAllRestaurants() {
-    showState('loading');
-    
-    try {
-        const data = await fetchRestaurantsList();
-        
-        if (data.success && data.restaurants) {
-            displayRestaurantsList(data.restaurants, data.folder);
-            showState('list');
-        } else {
-            showError(data.message || '식당 목록을 불러오는데 실패했습니다.');
-        }
-    } catch (error) {
-        showError('서버 연결에 실패했습니다. 네트워크를 확인해주세요.');
-    }
-}
-
 // 식당 목록 표시
-function displayRestaurantsList(restaurants, folder) {
+function displayRestaurantsList(restaurants, folder, statusSummary) {
     restaurantsContainer.innerHTML = '';
     
     if (!restaurants || restaurants.length === 0) {
@@ -160,26 +142,117 @@ function displayRestaurantsList(restaurants, folder) {
         `;
         return;
     }
-    
-    restaurants.forEach(restaurant => {
-        const item = document.createElement('div');
-        item.className = `restaurant-item ${restaurant.available === false ? 'unavailable' : ''}`;
-        
-        item.innerHTML = `
-            <h3>${restaurant.name || '이름 없음'}</h3>
-            <p>${restaurant.address || '주소 정보 없음'}</p>
+
+    // 상태 요약 정보 표시
+    if (statusSummary) {
+        const summaryElement = document.createElement('div');
+        summaryElement.className = 'status-summary';
+        summaryElement.innerHTML = `
+            <div class="summary-card">
+                <h3>📊 식당 운영 현황</h3>
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">${statusSummary.total}</span>
+                        <span class="stat-label">전체</span>
+                    </div>
+                    <div class="stat-item available">
+                        <span class="stat-number">${statusSummary.available}</span>
+                        <span class="stat-label">영업중</span>
+                    </div>
+                    <div class="stat-item unavailable">
+                        <span class="stat-number">${statusSummary.unavailable}</span>
+                        <span class="stat-label">휴업</span>
+                    </div>
+                    <div class="stat-item rate">
+                        <span class="stat-number">${statusSummary.availabilityRate}%</span>
+                        <span class="stat-label">가용률</span>
+                    </div>
+                </div>
+            </div>
         `;
+        restaurantsContainer.appendChild(summaryElement);
+    }
+
+    // 영업 중인 식당과 그렇지 않은 식당 분리
+    const availableRestaurants = restaurants.filter(r => r.isAvailable !== false);
+    const unavailableRestaurants = restaurants.filter(r => r.isAvailable === false);
+
+    // 영업 중인 식당 먼저 표시
+    if (availableRestaurants.length > 0) {
+        const availableHeader = document.createElement('div');
+        availableHeader.className = 'section-header';
+        availableHeader.innerHTML = `
+            <h3>✅ 영업 중인 식당 (${availableRestaurants.length}개)</h3>
+        `;
+        restaurantsContainer.appendChild(availableHeader);
+
+        availableRestaurants.forEach(restaurant => {
+            const item = createRestaurantItem(restaurant, true);
+            restaurantsContainer.appendChild(item);
+        });
+    }
+
+    // 휴업 중인 식당 표시
+    if (unavailableRestaurants.length > 0) {
+        const unavailableHeader = document.createElement('div');
+        unavailableHeader.className = 'section-header';
+        unavailableHeader.innerHTML = `
+            <h3>❌ 휴업 중인 식당 (${unavailableRestaurants.length}개)</h3>
+        `;
+        restaurantsContainer.appendChild(unavailableHeader);
+
+        unavailableRestaurants.forEach(restaurant => {
+            const item = createRestaurantItem(restaurant, false);
+            restaurantsContainer.appendChild(item);
+        });
+    }
+}
+
+// 식당 아이템 생성 함수
+function createRestaurantItem(restaurant, isAvailable) {
+    const item = document.createElement('div');
+    item.className = `restaurant-item ${isAvailable ? 'available' : 'unavailable'}`;
+    
+    const statusIcon = isAvailable ? '🟢' : '🔴';
+    const statusText = isAvailable ? '영업중' : '휴업';
+    
+    item.innerHTML = `
+        <div class="restaurant-header">
+            <h3>${restaurant.name || '이름 없음'}</h3>
+            <div class="status-badge ${isAvailable ? 'status-available' : 'status-unavailable'}">
+                ${statusIcon} ${statusText}
+            </div>
+        </div>
+        <p>${restaurant.address || '주소 정보 없음'}</p>
+    `;
+    
+    // 클릭 이벤트 (영업 중인 식당만)
+    if (isAvailable && restaurant.sid) {
+        item.addEventListener('click', () => {
+            const mapUrl = `https://map.naver.com/p/entry/place/${restaurant.sid}`;
+            window.open(mapUrl, '_blank');
+        });
+    }
+    
+    return item;
+}
+
+// 전체 식당 목록 처리 (수정)
+async function handleShowAllRestaurants() {
+    showState('loading');
+    
+    try {
+        const data = await fetchRestaurantsList();
         
-        // 클릭 이벤트 (사용 가능한 식당만)
-        if (restaurant.available !== false && restaurant.sid) {
-            item.addEventListener('click', () => {
-                const mapUrl = `https://map.naver.com/p/entry/place/${restaurant.sid}`;
-                window.open(mapUrl, '_blank');
-            });
+        if (data.success && data.restaurants) {
+            displayRestaurantsList(data.restaurants, data.folder, data.statusSummary);
+            showState('list');
+        } else {
+            showError(data.message || '식당 목록을 불러오는데 실패했습니다.');
         }
-        
-        restaurantsContainer.appendChild(item);
-    });
+    } catch (error) {
+        showError('서버 연결에 실패했습니다. 네트워크를 확인해주세요.');
+    }
 }
 
 // 에러 표시

@@ -459,6 +459,130 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+/* 상태 요약 정보 */
+.status-summary {
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.summary-card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 15px;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background: #f7fafc;
+}
+
+.stat-item.available {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.stat-item.unavailable {
+    background: #fed7d7;
+    color: #742a2a;
+}
+
+.stat-item.rate {
+    background: #bee3f8;
+    color: #1a365d;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+/* 섹션 헤더 */
+.section-header {
+    margin: 20px 5px 15px;
+}
+
+.section-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+    padding: 10px 15px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 10px;
+    margin: 0;
+}
+
+/* 식당 아이템 영업 상태 */
+.restaurant-item.available {
+    border-left: 4px solid #48bb78;
+}
+
+.restaurant-item.unavailable {
+    border-left: 4px solid #f56565;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.restaurant-item.unavailable:hover {
+    transform: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.restaurant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.restaurant-header h3 {
+    margin: 0;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.status-badge.status-available {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.status-badge.status-unavailable {
+    background: #fed7d7;
+    color: #742a2a;
+}
+
 /* Responsive Design - 모바일 최적화 강화 */
 @media (max-width: 640px) {
     .container {
@@ -586,6 +710,46 @@ body {
     
     .back-btn {
         margin: 15px 5px 0;
+    }
+
+    .summary-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .stat-item {
+        padding: 8px;
+    }
+    
+    .stat-number {
+        font-size: 1.2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem;
+    }
+    
+    .restaurant-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .restaurant-header h3 {
+        margin-right: 0;
+    }
+    
+    .status-badge {
+        align-self: flex-start;
+    }
+    
+    .section-header {
+        margin: 15px 0 10px;
+    }
+    
+    .section-header h3 {
+        font-size: 1rem;
+        padding: 8px 12px;
     }
 }
 
