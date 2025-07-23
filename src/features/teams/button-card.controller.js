@@ -36,10 +36,7 @@ export async function createLunchButtonCard(request, reply) {
           {
             type: "Action.Submit",
             title: "🎲 점메추 해줘!",
-            data: {
-              action: "lunch_request",
-              source: "button_click"
-            }
+            data: "lunch_request"
           }
         ]
       }
