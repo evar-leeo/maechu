@@ -12,6 +12,11 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     font-weight: 400;
+    /* 모바일 최적화 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .container {
@@ -106,6 +111,11 @@ body {
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
     min-width: 250px;
+    /* 모바일 터치 최적화 */
+    min-height: 48px;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
 }
 
 .recommend-btn:hover {
@@ -128,6 +138,11 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 220px;
+    /* 모바일 터치 최적화 */
+    min-height: 44px;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
 }
 
 .secondary-btn:hover {
@@ -194,6 +209,9 @@ body {
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
+    /* 모바일 터치 최적화 */
+    min-height: 40px;
+    touch-action: manipulation;
 }
 
 .retry-btn:hover {
@@ -210,12 +228,16 @@ body {
     font-weight: 700;
     color: #2d3748;
     margin-bottom: 10px;
+    word-break: keep-all;
+    line-height: 1.3;
 }
 
 .restaurant-address {
     font-size: 1.1rem;
     color: #718096;
     margin-bottom: 30px;
+    word-break: keep-all;
+    line-height: 1.4;
 }
 
 .action-buttons {
@@ -233,6 +255,12 @@ body {
     transition: all 0.3s ease;
     display: inline-block;
     font-size: 1rem;
+    /* 모바일 터치 최적화 */
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
 }
 
 .action-btn.primary {
@@ -267,6 +295,9 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     width: 100%;
+    /* 모바일 터치 최적화 */
+    min-height: 48px;
+    touch-action: manipulation;
 }
 
 .back-btn:hover {
@@ -304,6 +335,7 @@ body {
     font-size: 0.9rem;
     border-radius: 20px;
     width: auto;
+    min-height: 40px;
 }
 
 .restaurants-container {
@@ -318,6 +350,9 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
     cursor: pointer;
+    /* 모바일 터치 최적화 */
+    min-height: 60px;
+    touch-action: manipulation;
 }
 
 .restaurant-item:hover {
@@ -330,11 +365,15 @@ body {
     font-weight: 600;
     color: #2d3748;
     margin-bottom: 8px;
+    word-break: keep-all;
+    line-height: 1.3;
 }
 
 .restaurant-item p {
     color: #718096;
     font-size: 0.95rem;
+    word-break: keep-all;
+    line-height: 1.4;
 }
 
 .restaurant-item.unavailable {
@@ -365,11 +404,13 @@ body {
     font-weight: 600;
     color: #e53e3e;
     margin-bottom: 15px;
+    word-break: keep-all;
 }
 
 .error-state p {
     color: #718096;
     margin-bottom: 30px;
+    word-break: keep-all;
 }
 
 /* Footer */
@@ -418,14 +459,24 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive Design */
+/* Responsive Design - 모바일 최적화 강화 */
 @media (max-width: 640px) {
     .container {
-        padding: 15px;
+        padding: 10px;
     }
     
     .title {
         font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .header {
+        margin-bottom: 20px;
+        padding: 15px 0;
     }
     
     .initial-state,
@@ -433,41 +484,165 @@ body {
     .loading,
     .error-state {
         padding: 30px 20px;
+        margin: 0 5px;
+    }
+    
+    .lunch-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+    
+    .initial-state h2 {
+        font-size: 1.5rem;
+    }
+    
+    .initial-state p {
+        font-size: 0.9rem;
+        margin-bottom: 30px;
     }
     
     .button-group {
         width: 100%;
+        gap: 12px;
     }
     
     .recommend-btn,
     .secondary-btn {
         width: 100%;
         min-width: auto;
+        font-size: 1rem;
+        padding: 16px 24px;
+    }
+    
+    .restaurant-name {
+        font-size: 1.6rem;
+        margin-bottom: 8px;
+    }
+    
+    .restaurant-address {
+        font-size: 1rem;
+        margin-bottom: 25px;
     }
     
     .action-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 12px;
     }
     
     .action-btn {
         width: 100%;
-        max-width: 250px;
+        max-width: 280px;
+        padding: 14px 20px;
     }
     
     .list-header {
         flex-direction: column;
         gap: 15px;
         text-align: center;
+        padding: 20px 15px;
+        margin: 0 5px 15px;
+    }
+    
+    .list-header h2 {
+        font-size: 1.2rem;
     }
     
     .list-header .back-btn {
         width: 100%;
+        max-width: 200px;
     }
     
     .result-header {
         flex-direction: column;
         gap: 15px;
         text-align: center;
+    }
+    
+    .result-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .restaurants-container {
+        margin: 0 5px;
+    }
+    
+    .restaurant-item {
+        padding: 16px;
+    }
+    
+    .restaurant-item h3 {
+        font-size: 1.1rem;
+    }
+    
+    .restaurant-item p {
+        font-size: 0.9rem;
+    }
+    
+    .footer {
+        padding: 20px 0 15px;
+        font-size: 0.8rem;
+    }
+    
+    .back-btn {
+        margin: 15px 5px 0;
+    }
+}
+
+/* 초소형 모바일 (iPhone SE 등) */
+@media (max-width: 375px) {
+    .container {
+        padding: 8px;
+    }
+    
+    .title {
+        font-size: 1.8rem;
+    }
+    
+    .initial-state,
+    .result-card,
+    .loading,
+    .error-state {
+        padding: 25px 15px;
+    }
+    
+    .lunch-icon {
+        font-size: 2.5rem;
+    }
+    
+    .initial-state h2 {
+        font-size: 1.3rem;
+    }
+    
+    .restaurant-name {
+        font-size: 1.4rem;
+    }
+}
+
+/* 가로 모드 최적화 */
+@media (max-width: 640px) and (orientation: landscape) {
+    .header {
+        margin-bottom: 15px;
+        padding: 10px 0;
+    }
+    
+    .title {
+        font-size: 1.8rem;
+    }
+    
+    .lunch-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .initial-state,
+    .result-card,
+    .loading,
+    .error-state {
+        padding: 20px 15px;
+    }
+    
+    .footer {
+        padding: 15px 0 10px;
     }
 } 
