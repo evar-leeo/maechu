@@ -6,9 +6,9 @@
   "packageName": "com.maechu.lunchbot",
   "developer": {
     "name": "jsleemaster",
-    "websiteUrl": "https://maechu-v2-whmc.onrender.com",
-    "privacyUrl": "https://maechu-v2-whmc.onrender.com",
-    "termsOfUseUrl": "https://maechu-v2-whmc.onrender.com"
+    "websiteUrl": "{{SERVER_URL}}",
+    "privacyUrl": "{{SERVER_URL}}",
+    "termsOfUseUrl": "{{SERVER_URL}}"
   },
   "icons": {
     "color": "icon-color.png",
@@ -61,11 +61,11 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "maechu-v2-whmc.onrender.com",
+    "{{SERVER_DOMAIN}}",
     "map.naver.com"
   ],
   "webApplicationInfo": {
-    "id": "lunch-recommend-bot-v2",
-    "resource": "https://maechu-v2-whmc.onrender.com"
+    "id": "{{TEAMS_BOT_ID}}",
+    "resource": "{{SERVER_URL}}"
   }
 } 

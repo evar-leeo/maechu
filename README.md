@@ -11,7 +11,10 @@ Render.com 대시보드에서 다음 환경 변수를 설정하세요:
 
 ```
 PORT=10000
+SERVER_URL=https://your-app-name.onrender.com
 NAVER_MAP_FOLDER_ID=your_naver_map_folder_id_here
+TEAMS_BOT_ID=lunch-recommend-bot-v2
+TEAMS_APP_PACKAGE=com.maechu.lunchbot
 ```
 
 ### 2. 네이버 지도 폴더 ID 찾는 방법
@@ -45,7 +48,8 @@ Microsoft Teams에서 Office 365 Connectors가 은퇴되면서 **Power Automate 
 
 3. **웹훅 URL 설정**
    ```
-   https://your-app-name.onrender.com/teams/lunch
+   ${SERVER_URL}/teams/lunch
+   예: https://maechu-v2-whmc.onrender.com/teams/lunch
    ```
 
 #### 예시 Power Automate Flow:

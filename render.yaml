@@ -9,8 +9,14 @@ services:
         value: production
       - key: PORT
         value: 10000
+      - key: SERVER_URL
+        value: https://maechu-v2-whmc.onrender.com
       - key: NAVER_MAP_FOLDER_ID
         sync: false  # 수동으로 설정해야 함
+      - key: TEAMS_BOT_ID
+        value: lunch-recommend-bot-v2
+      - key: TEAMS_APP_PACKAGE
+        value: com.maechu.lunchbot
 
   - type: cron
     name: fetch-menus
@@ -19,5 +25,11 @@ services:
     schedule: "0 9 * * *"  # 매일 오전 9시
     startCommand: npm run fetch-menus
     envVars:
+      - key: SERVER_URL
+        value: https://maechu-v2-whmc.onrender.com
       - key: NAVER_MAP_FOLDER_ID
-        sync: false  # 수동으로 설정해야 함 
+        sync: false  # 수동으로 설정해야 함
+      - key: TEAMS_BOT_ID
+        value: lunch-recommend-bot-v2
+      - key: TEAMS_APP_PACKAGE
+        value: com.maechu.lunchbot 
