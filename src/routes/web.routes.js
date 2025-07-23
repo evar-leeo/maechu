@@ -1,4 +1,5 @@
 import dinningListService from "#features/lunch/services/dinning-list.service.js";
+import { ENV_CONFIG } from "#core/config/env.config.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -9,6 +10,17 @@ export async function registerWebRoutes(maechu) {
   // 메인 웹페이지
   maechu.get('/web', async (request, reply) => {
     return reply.sendFile('index.html');
+  });
+
+  // 디버깅용 환경설정 확인 엔드포인트
+  maechu.get('/debug/env', async (request, reply) => {
+    return {
+      NODE_ENV: process.env.NODE_ENV,
+      SERVER_URL: ENV_CONFIG.SERVER_URL,
+      NAVER_MAP_FOLDER_ID: ENV_CONFIG.NAVER_MAP_FOLDER_ID ? 'SET' : 'NOT_SET',
+      FOLDER_ID_VALUE: ENV_CONFIG.NAVER_MAP_FOLDER_ID ? ENV_CONFIG.NAVER_MAP_FOLDER_ID.slice(0, 8) + '...' : null,
+      timestamp: new Date().toISOString()
+    };
   });
 
   // 웹용 점심 메뉴 API (JSON 응답)
