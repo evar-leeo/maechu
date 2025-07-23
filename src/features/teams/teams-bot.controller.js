@@ -26,10 +26,11 @@ export async function handleTeamsBotMessage(request, reply) {
           type: "message",
           attachments: [{
             contentType: "application/vnd.microsoft.card.adaptive",
-            content: {
-              type: "AdaptiveCard",
-              version: "1.3",
-              body: [
+                       content: {
+             type: "AdaptiveCard", 
+             version: "1.3",
+             speak: `${from.name}님을 위한 오늘의 추천 메뉴는 ${restaurant.title}입니다. ${restaurant.text || '맛있는 식당입니다.'}`,
+             body: [
                 {
                   type: "TextBlock",
                   text: `🍽️ ${from.name}님을 위한 오늘의 메뉴!`,

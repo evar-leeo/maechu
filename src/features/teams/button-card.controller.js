@@ -6,6 +6,7 @@ export async function createLunchButtonCard(request, reply) {
       content: {
         type: "AdaptiveCard",
         version: "1.3",
+        speak: "점심 메뉴 추천 봇입니다. 오늘 뭐 먹을지 고민된다면 점메추 버튼을 눌러보세요!",
         body: [
           {
             type: "TextBlock",

@@ -30,10 +30,11 @@ export async function handleTeamsLunchRequest(request, reply) {
     return {
       type: "message",
       attachments: [{
-        contentType: "application/vnd.microsoft.card.adaptive",
+        contentType: "application/vnd.microsoft.card.adaptive", 
         content: {
           type: "AdaptiveCard",
           version: "1.3",
+          speak: `오늘의 추천 메뉴는 ${restaurant.title}입니다. ${restaurant.text || '맛있는 식당입니다.'}`,
           body: [
             {
               type: "TextBlock",
@@ -81,6 +82,7 @@ export async function handleTeamsLunchRequest(request, reply) {
         content: {
           type: "AdaptiveCard",
           version: "1.3",
+          speak: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
           body: [{
             type: "TextBlock",
             text: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
