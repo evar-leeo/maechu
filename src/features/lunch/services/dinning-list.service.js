@@ -40,11 +40,10 @@ async function fetchLatestMenuData() {
 
   try {
     console.log('🔄 최신 메뉴 데이터 가져오는 중...');
-    console.log(`📡 API URL: ${NAVER_MAPS_BOOKMARK_API_URL}/${NAVER_MAP_FOLDER_ID}/bookmarks`);
     
-    // 페이징 파라미터 추가해서 더 많은 데이터 가져오기
-    const apiUrl = `${NAVER_MAPS_BOOKMARK_API_URL}/${NAVER_MAP_FOLDER_ID}/bookmarks?size=100&page=0`;
-    console.log(`📡 Full API URL: ${apiUrl}`);
+    // 올바른 네이버 API 파라미터 사용
+    const apiUrl = `${NAVER_MAPS_BOOKMARK_API_URL}/${NAVER_MAP_FOLDER_ID}/bookmarks?start=0&limit=5000&sort=lastUseTime&createIdNo=false`;
+    console.log(`📡 API URL: ${apiUrl}`);
     
     const { statusCode, body } = await request(apiUrl);
 
@@ -62,53 +61,17 @@ async function fetchLatestMenuData() {
     console.log(`- unavailableCount: ${json.unavailableCount || 0}`);
     console.log(`- mismatchedCount: ${json.mismatchedCount || 0}`);
     
-    // 만약 더 많은 데이터가 있다면 추가 호출 필요한지 체크
-    if (json.folder?.bookmarkCount > json.bookmarkList?.length) {
-      console.warn(`⚠️ 전체 ${json.folder.bookmarkCount}개 중 ${json.bookmarkList?.length}개만 반환됨. 페이징 처리가 필요할 수 있습니다.`);
-      
-      // 추가 페이지 데이터 가져오기 시도
-      const allBookmarks = [...(json.bookmarkList || [])];
-      const totalCount = json.folder.bookmarkCount;
-      const pageSize = 100;
-      
-      for (let page = 1; page * pageSize < totalCount; page++) {
-        try {
-          console.log(`📄 추가 페이지 ${page + 1} 요청 중...`);
-          const nextPageUrl = `${NAVER_MAPS_BOOKMARK_API_URL}/${NAVER_MAP_FOLDER_ID}/bookmarks?size=${pageSize}&page=${page}`;
-          const { statusCode: nextStatusCode, body: nextBody } = await request(nextPageUrl);
-          
-          if (nextStatusCode === 200) {
-            const nextPageData = await nextBody.json();
-            if (nextPageData.bookmarkList?.length) {
-              allBookmarks.push(...nextPageData.bookmarkList);
-              console.log(`✅ 페이지 ${page + 1}: ${nextPageData.bookmarkList.length}개 추가 (총 ${allBookmarks.length}개)`);
-            } else {
-              console.log(`📄 페이지 ${page + 1}: 더 이상 데이터 없음`);
-              break;
-            }
-          } else {
-            console.warn(`⚠️ 페이지 ${page + 1} 요청 실패: ${nextStatusCode}`);
-            break;
-          }
-        } catch (pageError) {
-          console.warn(`⚠️ 페이지 ${page + 1} 처리 중 오류:`, pageError.message);
-          break;
-        }
-      }
-      
-      // 전체 데이터로 업데이트
-      json.bookmarkList = allBookmarks;
-      console.log(`🔄 페이징 완료: 최종 ${allBookmarks.length}개 북마크 수집`);
-    }
-    
-    // 북마크 리스트 상세 정보
+    // 북마크 리스트 상세 정보 (처음 5개만)
     if (json.bookmarkList?.length) {
-      console.log('📋 북마크 상세:');
-      json.bookmarkList.forEach((bookmark, index) => {
+      console.log('📋 북마크 샘플 (처음 5개):');
+      json.bookmarkList.slice(0, 5).forEach((bookmark, index) => {
         const available = bookmark.available ? '✅' : '❌';
         const matched = bookmark.bookmarkMismatchInfo?.isMatched ? '🔗' : '⚠️';
         console.log(`  ${index + 1}. ${available}${matched} ${bookmark.name} (${bookmark.address || 'N/A'})`);
       });
+      if (json.bookmarkList.length > 5) {
+        console.log(`  ... 외 ${json.bookmarkList.length - 5}개 더`);
+      }
     }
     
     // 파일에 저장
