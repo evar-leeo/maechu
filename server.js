@@ -3,6 +3,7 @@ import 'dotenv/config';
 import maechu from "#core/maechu.js";
 import { registerDoorayRoutes } from "#routes/dooray.routes.js";
 import { registerTeamsRoutes } from "#routes/teams.routes.js";
+import { registerWebRoutes } from "#routes/web.routes.js";
 import { ENV_CONFIG } from "#core/config/env.config.js";
 import { generateTeamsManifest, getApiEndpoints } from "#core/utils/manifest-generator.js";
 
@@ -14,6 +15,7 @@ maechu.get('/', () => {
     title: 'hello 😛', 
     description: 'world 🌍',
     server_url: ENV_CONFIG.SERVER_URL,
+    web_url: `${ENV_CONFIG.SERVER_URL}/web`,
     endpoints
   }
 });
@@ -26,6 +28,7 @@ maechu.get('/awake', (_, reply) => {
 
 maechu.register(registerDoorayRoutes, { prefix: '/dooray' });
 maechu.register(registerTeamsRoutes, { prefix: '/teams' });
+maechu.register(registerWebRoutes);
 
 try {
   // Teams 매니페스트 생성

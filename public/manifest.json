@@ -1,0 +1,70 @@
+{
+  "name": "맛추 v2 - 점심 메뉴 추천",
+  "short_name": "맛추 v2",
+  "description": "네이버 지도 기반 점심 메뉴 추천 서비스",
+  "start_url": "/web",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23667eea'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>🍽️</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23667eea'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>🍽️</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "점심 추천받기",
+      "short_name": "추천",
+      "description": "바로 점심 메뉴 추천받기",
+      "url": "/web?action=recommend",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>",
+          "sizes": "any"
+        }
+      ]
+    },
+    {
+      "name": "전체 식당 목록",
+      "short_name": "목록",
+      "description": "저장된 모든 식당 보기",
+      "url": "/web?action=list",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>",
+          "sizes": "any"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 844'><rect width='390' height='844' fill='%23667eea'/><text x='195' y='400' font-size='40' text-anchor='middle' fill='white'>맛추 v2</text><text x='195' y='450' font-size='20' text-anchor='middle' fill='white'>점심 메뉴 추천 서비스</text></svg>",
+      "sizes": "390x844",
+      "type": "image/svg+xml",
+      "form_factor": "narrow",
+      "label": "맛추 v2 메인 화면"
+    }
+  ],
+  "categories": ["food", "lifestyle", "utilities"],
+  "related_applications": [],
+  "prefer_related_applications": false
+} 
