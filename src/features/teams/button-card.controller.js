@@ -33,16 +33,11 @@ export async function createLunchButtonCard(request, reply) {
         ],
         actions: [
           {
-            type: "Action.Http",
+            type: "Action.Submit",
             title: "🎲 점메추 해줘!",
-            method: "POST",
-            url: "https://maechu-v2-whmc.onrender.com/teams/lunch",
-            body: JSON.stringify({
-              source: "button_click",
-              timestamp: new Date().toISOString()
-            }),
-            headers: {
-              "Content-Type": "application/json"
+            data: {
+              action: "lunch_request",
+              source: "button_click"
             }
           }
         ]
