@@ -1,0 +1,71 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "version": "1.0.0",
+  "id": "lunch-recommend-bot-v2",
+  "packageName": "com.maechu.lunchbot",
+  "developer": {
+    "name": "jsleemaster",
+    "websiteUrl": "https://maechu-v2-whmc.onrender.com",
+    "privacyUrl": "https://maechu-v2-whmc.onrender.com",
+    "termsOfUseUrl": "https://maechu-v2-whmc.onrender.com"
+  },
+  "icons": {
+    "color": "icon-color.png",
+    "outline": "icon-outline.png"
+  },
+  "name": {
+    "short": "점메추 봇",
+    "full": "점심 메뉴 추천 봇 v2"
+  },
+  "description": {
+    "short": "네이버 지도 북마크 기반 점심 메뉴 추천",
+    "full": "제2판교 밥집 식권대장에서 랜덤하게 점심 메뉴를 추천해드리는 봇입니다. '점메추' 또는 '메뉴'라고 말하면 즉시 추천해드립니다!"
+  },
+  "accentColor": "#6264a7",
+  "bots": [
+    {
+      "botId": "lunch-recommend-bot-v2",
+      "scopes": [
+        "personal",
+        "team",
+        "groupchat"
+      ],
+      "commandLists": [
+        {
+          "scopes": [
+            "personal",
+            "team",
+            "groupchat"
+          ],
+          "commands": [
+            {
+              "title": "점메추",
+              "description": "점심 메뉴를 추천받습니다"
+            },
+            {
+              "title": "메뉴",
+              "description": "오늘의 추천 메뉴를 확인합니다"
+            },
+            {
+              "title": "도움말",
+              "description": "봇 사용법을 확인합니다"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "maechu-v2-whmc.onrender.com",
+    "map.naver.com"
+  ],
+  "webApplicationInfo": {
+    "id": "lunch-recommend-bot-v2",
+    "resource": "https://maechu-v2-whmc.onrender.com"
+  }
+} 

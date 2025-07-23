@@ -1,5 +1,6 @@
 import { handleTeamsLunchRequest } from "#features/teams/teams.controller.js";
 import { createLunchButtonCard } from "#features/teams/button-card.controller.js";
+import { handleTeamsBotMessage } from "#features/teams/teams-bot.controller.js";
 import dinningListService from "#features/lunch/services/dinning-list.service.js";
 
 export async function registerTeamsRoutes(maechu) {
@@ -11,6 +12,9 @@ export async function registerTeamsRoutes(maechu) {
 
   // 점메추 버튼 카드 생성 (Teams 채널에 고정용)
   maechu.get('/button-card', createLunchButtonCard);
+
+  // Teams Bot Framework 메시지 엔드포인트
+  maechu.post('/bot/messages', handleTeamsBotMessage);
 
   // 헬스체크 엔드포인트
   maechu.get('/health', () => {
