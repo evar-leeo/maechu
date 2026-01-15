@@ -22,14 +22,59 @@ async function main() {
       process.exit(1);
     }
 
-    // 2. Select a random restaurant
-    const randomIndex = Math.floor(Math.random() * menus.length);
-    const selectedRestaurant = menus[randomIndex];
+    // 2. Select 3 unique random restaurants
+    const selectedRestaurants = [];
+    const tempMenus = [...menus]; // Copy to avoid modifying original array
 
-    console.log(`Selected Restaurant: ${selectedRestaurant.name}`);
+    // Pick up to 3 restaurants, or fewer if not enough data
+    const count = Math.min(3, tempMenus.length);
+    for (let i = 0; i < count; i++) {
+        const randomIndex = Math.floor(Math.random() * tempMenus.length);
+        selectedRestaurants.push(tempMenus[randomIndex]);
+        tempMenus.splice(randomIndex, 1); // Remove selected to ensure uniqueness
+    }
+
+    console.log(`Selected Restaurants: ${selectedRestaurants.map(r => r.name).join(', ')}`);
 
     // 3. Construct payload for Teams (Adaptive Card)
-    // Using the standard format for Teams Workflows
+    
+    // Create restaurant items for the card
+    const restaurantItems = selectedRestaurants.map((restaurant, index) => {
+        return {
+            type: "Container",
+            separator: index > 0, // Add separator for 2nd and 3rd items
+            spacing: "Medium",
+            items: [
+                {
+                    type: "TextBlock",
+                    text: `${index + 1}. ${restaurant.name}`,
+                    wrap: true,
+                    size: "Large",
+                    weight: "Bolder",
+                    color: "Accent"
+                },
+                {
+                    type: "TextBlock",
+                    text: restaurant.address || "주소 정보 없음",
+                    wrap: true,
+                    spacing: "None",
+                    size: "Small",
+                    isSubtle: true
+                },
+                {
+                    type: "ActionSet",
+                    actions: [
+                        {
+                            type: "Action.OpenUrl",
+                            title: "네이버 지도 보기",
+                            url: `https://map.naver.com/v5/entry/place/${restaurant.sid}`
+                        }
+                    ]
+                }
+            ]
+        };
+    });
+
     const payload = {
       type: "message",
       attachments: [
@@ -44,35 +89,9 @@ async function main() {
                 type: "TextBlock",
                 size: "Medium",
                 weight: "Bolder",
-                text: "🍽️ 오늘의 점심 추천"
+                text: "🍽️ 오늘의 점심 추천 (3곳)"
               },
-              {
-                type: "TextBlock",
-                text: `${selectedRestaurant.name}`,
-                wrap: true,
-                size: "Large",
-                weight: "Bolder",
-                color: "Accent"
-              },
-              {
-                type: "FactSet",
-                facts: [
-                  {
-                    title: "주소",
-                    value: selectedRestaurant.address || "주소 정보 없음"
-                  }
-                ]
-              },
-              {
-                type: "ActionSet",
-                actions: [
-                  {
-                    type: "Action.OpenUrl",
-                    title: "네이버 지도 보기",
-                    url: `https://map.naver.com/v5/entry/place/${selectedRestaurant.sid}`
-                  }
-                ]
-              }
+              ...restaurantItems
             ]
           }
         }
