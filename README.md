@@ -64,7 +64,6 @@ maechu_v2/
 ├── src/
 │   ├── core/                   # 코어 설정 (Fastify, 미들웨어)
 │   ├── features/
-│   │   ├── dooray/            # Dooray 웹훅 처리 (레거시)
 │   │   └── lunch/             # 점심 추천 로직
 │   └── routes/                # 라우팅 설정
 ├── public/                    # 웹 인터페이스 정적 파일
