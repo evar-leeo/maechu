@@ -18,5 +18,8 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Fetch Latest Menu
+        run: npm run fetch-menus
+
       - name: Send Teams Notification
         run: node scripts/notify-teams.js
