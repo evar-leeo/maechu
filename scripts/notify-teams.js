@@ -27,17 +27,55 @@ async function main() {
 
     console.log(`Selected Restaurant: ${selectedRestaurant.name}`);
 
-    // 3. Construct payload for Teams
-    // The structure depends on what the Power Automate flow expects. 
-    // Usually a simple JSON object is enough for "When a HTTP request is received".
-    // We send some basic details.
+    // 3. Construct payload for Teams (Adaptive Card)
+    // Using the standard format for Teams Workflows
     const payload = {
-      text: `🍽️ *오늘의 점심 추천* 🍽️\n\n**${selectedRestaurant.name}**\n📍 주소: ${selectedRestaurant.address || '주소 정보 없음'}\n🔗 [네이버 지도 보기](https://map.naver.com/v5/entry/place/${selectedRestaurant.sid})`,
-      restaurant: {
-        name: selectedRestaurant.name,
-        address: selectedRestaurant.address,
-        mapUrl: `https://map.naver.com/v5/entry/place/${selectedRestaurant.sid}`
-      }
+      type: "message",
+      attachments: [
+        {
+          contentType: "application/vnd.microsoft.card.adaptive",
+          content: {
+            $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+            type: "AdaptiveCard",
+            version: "1.4",
+            body: [
+              {
+                type: "TextBlock",
+                size: "Medium",
+                weight: "Bolder",
+                text: "🍽️ 오늘의 점심 추천"
+              },
+              {
+                type: "TextBlock",
+                text: `${selectedRestaurant.name}`,
+                wrap: true,
+                size: "Large",
+                weight: "Bolder",
+                color: "Accent"
+              },
+              {
+                type: "FactSet",
+                facts: [
+                  {
+                    title: "주소",
+                    value: selectedRestaurant.address || "주소 정보 없음"
+                  }
+                ]
+              },
+              {
+                type: "ActionSet",
+                actions: [
+                  {
+                    type: "Action.OpenUrl",
+                    title: "네이버 지도 보기",
+                    url: `https://map.naver.com/v5/entry/place/${selectedRestaurant.sid}`
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     };
 
     // 4. Send request
