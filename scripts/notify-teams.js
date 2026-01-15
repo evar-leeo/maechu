@@ -12,9 +12,10 @@ const WEBHOOK_URL = 'https://default66a97319b9a4475d9ecbe417e03e9e.e2.environmen
 async function main() {
   try {
     // 1. Read lunch_menu.json
-    const menuPath = join(__dirname, '../lunch_menu.json');
+    const menuPath = join(__dirname, '../src/features/lunch/constants/lunch_menu.json');
     const menuData = await readFile(menuPath, 'utf8');
-    const menus = JSON.parse(menuData);
+    const parsedData = JSON.parse(menuData);
+    const menus = parsedData.bookmarkList || [];
 
     if (!menus || menus.length === 0) {
       console.error('No menus found in lunch_menu.json');
