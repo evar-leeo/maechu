@@ -1,7 +1,6 @@
 import 'dotenv/config';
 
 import maechu from "#core/maechu.js";
-import { registerDoorayRoutes } from "#routes/dooray.routes.js";
 import { registerWebRoutes } from "#routes/web.routes.js";
 import { ENV_CONFIG } from "#core/config/env.config.js";
 
@@ -22,7 +21,6 @@ maechu.get('/awake', (_, reply) => {
   .send({ status: 'awaked' })
 })
 
-maechu.register(registerDoorayRoutes, { prefix: '/dooray' });
 maechu.register(registerWebRoutes);
 
 try {

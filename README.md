@@ -21,10 +21,13 @@ NAVER_MAP_FOLDER_ID=your_naver_map_folder_id_here
 3. "공유" 버튼 클릭하여 공유 링크 생성
 4. 링크에서 ID 추출: `https://map.naver.com/p/favorite/myPlace/folder/[여기가_폴더_ID]`
 
-### 3. 자동 메뉴 업데이트
+### 3. 자동 메뉴 업데이트 및 알림
 
-- **Cron Job**: 매일 오전 9시에 자동으로 네이버 지도에서 최신 식당 정보 동기화
-- **수동 실행**: `npm run fetch-menus`
+- **메뉴 동기화**: 매일 오전 9시 (KST) - 네이버 지도 데이터 동기화
+- **점심 알림**: 매일 오전 11시 30분 (KST) - Microsoft Teams 채널로 점심 추천 알림 전송 (GitHub Actions)
+- **수동 실행**:
+    - 메뉴 동기화: `npm run fetch-menus`
+    - 알림 테스트: `node scripts/notify-teams.js`
 
 ## 🌐 웹 인터페이스 사용법
 
@@ -100,8 +103,4 @@ npm start
 
 ### 공통
 - `GET /` - 헬스체크 및 서비스 정보
-- `GET /awake` - 상태 확인
-
-### Dooray (레거시)
-- `POST /dooray/lunch/simple` - Dooray 점심 추천
-- `POST /dooray/callbacks` - Dooray 웹훅 처리 
+- `GET /awake` - 상태 확인 

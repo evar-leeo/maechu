@@ -1,0 +1,22 @@
+name: Daily Lunch Notification
+
+on:
+  schedule:
+    # Runs at 11:30 KST (02:30 UTC) every Monday through Friday
+    - cron: '30 2 * * 1-5'
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Send Teams Notification
+        run: node scripts/notify-teams.js
