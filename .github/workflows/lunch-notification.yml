@@ -19,6 +19,8 @@ jobs:
           node-version: '18'
 
       - name: Fetch Latest Menu
+        env:
+          NAVER_MAP_FOLDER_ID: ${{ secrets.NAVER_MAP_FOLDER_ID }}
         run: npm run fetch-menus
 
       - name: Send Teams Notification
