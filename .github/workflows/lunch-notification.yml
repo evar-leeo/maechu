@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Fetch Latest Menu
         env:
           NAVER_MAP_FOLDER_ID: ${{ secrets.NAVER_MAP_FOLDER_ID }}
