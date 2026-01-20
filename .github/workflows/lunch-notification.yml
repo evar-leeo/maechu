@@ -23,7 +23,7 @@ jobs:
 
       - name: Fetch Latest Menu
         env:
-          NAVER_MAP_FOLDER_ID: ${{ secrets.NAVER_MAP_FOLDER_ID }}
+          NAVER_MAP_FOLDER_ID: 'a359f1dce0ee48d2bf0e378a70275aba'
         run: npm run fetch-menus
 
       - name: Send Teams Notification
