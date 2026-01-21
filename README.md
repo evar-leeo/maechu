@@ -24,7 +24,7 @@ NAVER_MAP_FOLDER_ID=your_naver_map_folder_id_here
 ### 3. 자동 메뉴 업데이트 및 알림
 
 - **메뉴 동기화**: 매일 오전 9시 (KST) - 네이버 지도 데이터 동기화
-- **점심 알림**: 매일 오전 11시 30분 (KST) - Microsoft Teams 채널로 점심 추천 알림 전송 (GitHub Actions)
+- **점심 알림**: 매일 오전 10시 (KST) - Microsoft Teams 채널로 점심 추천 알림 전송 (GitHub Actions - 서버 지연 고려)
 - **수동 실행**:
     - 메뉴 동기화: `npm run fetch-menus`
     - 알림 테스트: `node scripts/notify-teams.js`
