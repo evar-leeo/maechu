@@ -2,8 +2,8 @@ name: Daily Lunch Notification
 
 on:
   schedule:
-    # Runs at 11:30 KST (02:30 UTC) every Monday through Friday
-    - cron: '30 2 * * 1-5'
+    # Runs at 10:00 KST (01:00 UTC) every Monday through Friday to compensate for GitHub Actions delays
+    - cron: '0 1 * * 1-5'
   workflow_dispatch: # Allows manual triggering from GitHub UI
 
 jobs:
